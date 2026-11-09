@@ -19,9 +19,23 @@ from valutatrade_hub.parser_service.updater import RatesUpdater
 
 current_user = None
 
+def print_help():
+    print("\nДоступные команды:")
+    print("  register --username <имя> --password <пароль>  - регистрация")
+    print("  login --username <имя> --password <пароль>     - вход в систему")
+    print("  show-portfolio [--base <валюта>]               - показать портфель")
+    print("  buy --currency <валюта> --amount <сумма>       - купить валюту")
+    print("  sell --currency <валюта> --amount <сумма>      - продать валюту")
+    print("  get-rate --from <валюта1> --to <валюта2>       - узнать курс")
+    print("  update-rates [--source <источник>]             - обновить курсы из API")
+    print("  show-rates [--currency <валюта>]               - показать курсы из кэша")
+    print("  help                                           - показать это меню")
+    print("  exit                                           - выход из программы\n")
+
 def run_cli():
     global current_user
     print("Добро пожаловать в ValutaTrade Hub!")
+    print_help()
     
     while True:
         try:
@@ -35,6 +49,8 @@ def run_cli():
         try:
             if command == "exit":
                 break
+            elif command == "help":
+                print_help()
             elif command == "register":
                 if "--username" in args and "--password" in args:
                     u = args[args.index("--username") + 1]
