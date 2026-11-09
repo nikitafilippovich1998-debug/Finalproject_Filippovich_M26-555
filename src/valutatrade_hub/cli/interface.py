@@ -2,6 +2,10 @@ import shlex
 
 import prompt
 
+from valutatrade_hub.core.exceptions import (
+    CurrencyNotFoundError,
+    InsufficientFundsError,
+)
 from valutatrade_hub.core.usecases import (
     buy_currency,
     get_rate,
@@ -103,5 +107,9 @@ def run_cli():
 
             else:
                 print("Неизвестная команда")
-        except (ValueError, IndexError, TypeError) as e:
+        except InsufficientFundsError as e:
+            print(f"Ошибка: {e}")
+        except CurrencyNotFoundError as e:
+            print(f"Ошибка: {e}. Проверьте код валюты (help get-rate).")
+        except Exception as e: #noqa: BLE001
             print(f"Ошибка: {e}")
