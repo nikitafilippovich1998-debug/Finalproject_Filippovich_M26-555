@@ -1,0 +1,25 @@
+[project]
+name = "valutatrade_hub"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Никита Филиппович", email = "nikita.filippovich1998@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "prettytable>=3.18.0",
+    "prompt>=0.4.1",
+]
+
+[project.scripts]
+wallet = "valutatrade_hub.main:main"
+
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.4",
+]
