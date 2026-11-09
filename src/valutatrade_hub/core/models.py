@@ -2,6 +2,7 @@ import hashlib
 import secrets
 from datetime import datetime
 
+
 class User:
     def __init__(self, user_id, username, password, salt=None):
         self._user_id = user_id

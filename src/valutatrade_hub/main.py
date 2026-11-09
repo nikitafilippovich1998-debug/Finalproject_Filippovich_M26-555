@@ -1,5 +1,6 @@
 from valutatrade_hub.cli.interface import run_cli
 
+
 def main():
     run_cli()
 

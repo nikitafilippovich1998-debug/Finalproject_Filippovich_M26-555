@@ -1,7 +1,14 @@
 import shlex
+
 import prompt
+
 from valutatrade_hub.core.usecases import (
-    register_user, login_user, get_rate, get_user_portfolio, buy_currency, sell_currency
+    buy_currency,
+    get_rate,
+    get_user_portfolio,
+    login_user,
+    register_user,
+    sell_currency,
 )
 
 current_user = None
@@ -96,5 +103,5 @@ def run_cli():
 
             else:
                 print("Неизвестная команда")
-        except Exception as e:
+        except (ValueError, IndexError, TypeError) as e:
             print(f"Ошибка: {e}")
