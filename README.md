@@ -15,3 +15,7 @@
 1. Установите зависимости:
    ```bash
    uv sync
+
+## Демонстрация работы
+
+[Смотреть запись работы приложения на Asciinema](https://asciinema.org/a/DqOTyFHFXMFIvFks)
