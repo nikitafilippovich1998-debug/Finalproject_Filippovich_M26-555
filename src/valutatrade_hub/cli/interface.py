@@ -14,6 +14,8 @@ from valutatrade_hub.core.usecases import (
     register_user,
     sell_currency,
 )
+from valutatrade_hub.parser_service.config import ParserConfig
+from valutatrade_hub.parser_service.updater import RatesUpdater
 
 current_user = None
 
@@ -104,6 +106,45 @@ def run_cli():
                     a = float(args[args.index("--amount") + 1])
                     print(sell_currency(current_user.user_id, c, a))
                 else: print("Использование: sell --currency <cur> --amount <num>")
+
+            # НОВАЯ КОМАНДА: update-rates
+            elif command == "update-rates":
+                source = None
+                if "--source" in args:
+                    source = args[args.index("--source") + 1]
+                
+                print("INFO: Starting rates update...")
+                try:
+                    updater = RatesUpdater(ParserConfig())
+                    count = updater.run_update(source)
+                    print(f"Update successful. Total rates updated: {count}")
+                except Exception as e: # noqa: BLE001
+                    print(f"Ошибка обновления: {e}")
+
+            # НОВАЯ КОМАНДА: show-rates
+            elif command == "show-rates":
+                import json
+                import os
+                path = ParserConfig().RATES_FILE_PATH
+                if not os.path.exists(path):
+                    print("Локальный кеш курсов пуст. Выполните 'update-rates'.")
+                    continue
+                
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                
+                pairs = data.get("pairs", {})
+                print(f"Rates from cache (updated at {data.get('last_refresh')}):")
+                
+                # Фильтрация по валюте
+                currency_filter = None
+                if "--currency" in args:
+                    currency_filter = args[args.index("--currency") + 1].upper()
+                
+                for pair, info in pairs.items():
+                    if currency_filter and not pair.startswith(currency_filter):
+                        continue
+                    print(f"  - {pair}: {info['rate']}")
 
             else:
                 print("Неизвестная команда")
